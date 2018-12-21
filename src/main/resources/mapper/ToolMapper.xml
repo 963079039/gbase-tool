@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ztgx.mapper.ToolMapper">
+	<select id="findAllTables" parameterType="Map" resultType="Map">
+		select a.tabname AS tablename,c.comments from systables a
+		left join syscomments c on c.tabname = a.tabname
+		where a.statlevel = 'A'
+		<if test="tablename != null and tablename != ''">
+			AND a.tabname = #{tablename}
+		</if>
+		order by a.tabname
+	</select>
+	<select id="findTableByTablename" parameterType="Map" resultType="Map">
+			select a.colname,c.comments
+			from syscolumnsext a
+			inner join systables b on a.tabid = b.tabid
+			left join syscolcomments c on c.tabname = b.tabname and a.colname = c.colname
+			where b.statlevel = 'A'	AND b.tabname = #{tablename}
+	</select>
+
+	<update id="UpdateComment" parameterType="Map">
+		COMMENT ON COLUMN ${executesql}
+	</update>
+	<update id="UpdateTableComment" parameterType="Map">
+		COMMENT ON TABLE ${executesql}
+	</update>
+
+</mapper>
+
