@@ -10,7 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 
 
 public class AbstractController {
-	
+	//获取请求参数
 	protected Map<String,Object> parseRequestParam(HttpServletRequest  request){
 		Map<String,Object> paramMap=new HashMap<String,Object>();
 		Enumeration<String> paramNames=request.getParameterNames();
